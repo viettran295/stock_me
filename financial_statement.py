@@ -1,4 +1,5 @@
 import pandas as pd 
+import plotly.graph_objects as go
 
 class FinancialStatement:
     def __init__(self) -> None:
@@ -8,8 +9,7 @@ class FinancialStatement:
                        'Net Income From Continuing Operation Net Minority Interest']
         self.balancesheet_criteria = ['Total Assets', 'Total Liabilities Net Minority Interest',  
                          'Total Equity Gross Minority Interest', 'Total Capitalization', 
-                         'Net Debt', 'Total Debt', 'Current Debt', 
-                         'Investments And Advances', 'Cash And Cash Equivalents']
+                         'Total Debt', 'Current Debt', 'Investments And Advances', 'Cash And Cash Equivalents']
         self.cashflow_criteria = ['Operating Cash Flow', 'Investing Cash Flow', 
                                   'Financing Cash Flow', 'Free Cash Flow']
     
@@ -20,3 +20,12 @@ class FinancialStatement:
             grow_df = (df[df.columns[i]] - df[df.columns[i+1]]) / df[df.columns[i+1]] * 100
             df["% Growing " + str(df.columns[i]).split()[0]] = grow_df
         return df
+    
+    @staticmethod
+    def show_growing(df: pd.DataFrame):
+        fig = go.Figure()
+        for i in range(len(df.index)):
+                fig.add_trace(go.Scatter(
+                                x=df.columns[:3:-1], y=df.iloc[i][:3:-1],
+                                name=df.index[i]))
+        fig.show()
