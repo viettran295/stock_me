@@ -34,7 +34,7 @@ class FinancialStatement:
     @staticmethod
     def calculate_growing(df: pd.DataFrame) -> pd.DataFrame:
         nums_cols = len(df.columns) - 1
-        for i in range(nums_cols):
+        for i in range(1, nums_cols):
             grow_df = (df[df.columns[i]] - df[df.columns[i+1]]) / df[df.columns[i+1]] * 100
             df["% Growing " + str(df.columns[i]).split()[0]] = grow_df
         return df
