@@ -42,9 +42,9 @@ class FinancialStatement:
     @staticmethod
     def show_growing(df: pd.DataFrame):
         fig = go.Figure()
-        years = 3
+        growing_col = 4
         for i in range(len(df.index)):
                 fig.add_trace(go.Scatter(
-                                x=df.columns[:years:-1], y=df.iloc[i][:years:-1],
-                                name=df.index[i]))
+                                x=df.columns[:growing_col:-1], y=df.iloc[i][:growing_col:-1],
+                                name=df.iloc[i][0]))
         fig.show()
