@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 
 class FinancialStatement:
     def __init__(self) -> None:
+        self.idx_column = "Criteria"
         self.income_criteria = ['Gross Profit', 'Cost Of Revenue', 'Total Revenue', 'Total Expenses', 
                        'Interest Expense', 'Operating Revenue', 'Pretax Income', 'EBITDA', 'EBIT', 
                        'Tax Provision', 'Diluted EPS', 'Basic EPS',
@@ -12,6 +13,11 @@ class FinancialStatement:
                          'Total Debt', 'Current Debt', 'Investments And Advances', 'Cash And Cash Equivalents']
         self.cashflow_criteria = ['Operating Cash Flow', 'Investing Cash Flow', 
                                   'Financing Cash Flow', 'Free Cash Flow']
+    
+    def incomestmt_df(self, df: pd.DataFrame) -> pd.DataFrame:
+         df = self.rename_reset_Idx(df, self.idx_column)
+         return df.loc[df[self.idx_column].isin(self.income_criteria)]
+         
 
     @staticmethod
     def rename_reset_Idx(df: pd.DataFrame, name: str) -> pd.DataFrame:
