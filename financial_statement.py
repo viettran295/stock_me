@@ -12,6 +12,11 @@ class FinancialStatement:
                          'Total Debt', 'Current Debt', 'Investments And Advances', 'Cash And Cash Equivalents']
         self.cashflow_criteria = ['Operating Cash Flow', 'Investing Cash Flow', 
                                   'Financing Cash Flow', 'Free Cash Flow']
+
+    @staticmethod
+    def rename_reset_Idx(df: pd.DataFrame, name: str) -> pd.DataFrame:
+        df.reset_index(inplace=True)
+        return df.rename(columns={'index': name})
     
     @staticmethod
     def calculate_growing(df: pd.DataFrame) -> pd.DataFrame:
