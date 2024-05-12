@@ -22,6 +22,10 @@ class FinancialStatement:
          df = self.rename_reset_Idx(df, self.idx_column)
          return df.loc[df[self.idx_column].isin(self.balancesheet_criteria)]
 
+    def cashflow_df(self, df: pd.DataFrame) -> pd.DataFrame:
+        df = self.rename_reset_Idx(df, self.idx_column)
+        return df.loc[df[self.idx_column].isin(self.cashflow_criteria)]
+
     @staticmethod
     def rename_reset_Idx(df: pd.DataFrame, name: str) -> pd.DataFrame:
         df.reset_index(inplace=True)
