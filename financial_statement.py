@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 
 class FinancialStatement:
     def __init__(self) -> None:
-        self.financial_criteria = ['Gross Profit', 'Cost Of Revenue', 'Total Revenue', 'Total Expenses', 
+        self.income_criteria = ['Gross Profit', 'Cost Of Revenue', 'Total Revenue', 'Total Expenses', 
                        'Interest Expense', 'Operating Revenue', 'Pretax Income', 'EBITDA', 'EBIT', 
                        'Tax Provision', 'Diluted EPS', 'Basic EPS',
                        'Net Income From Continuing Operation Net Minority Interest']
