@@ -17,7 +17,10 @@ class FinancialStatement:
     def incomestmt_df(self, df: pd.DataFrame) -> pd.DataFrame:
          df = self.rename_reset_Idx(df, self.idx_column)
          return df.loc[df[self.idx_column].isin(self.income_criteria)]
-         
+    
+    def balancesheet_df(self, df: pd.DataFrame) -> pd.DataFrame:
+         df = self.rename_reset_Idx(df, self.idx_column)
+         return df.loc[df[self.idx_column].isin(self.balancesheet_criteria)]
 
     @staticmethod
     def rename_reset_Idx(df: pd.DataFrame, name: str) -> pd.DataFrame:
