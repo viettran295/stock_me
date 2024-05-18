@@ -1,10 +1,11 @@
 import pandas as pd 
 import plotly.graph_objects as go
 from datetime import datetime
+from .stock_me import StockMe
 
-class FinancialStatement:
+class FinancialStatement(StockMe):
     def __init__(self) -> None:
-        self.idx_column = "Criteria"
+        super().__init__()
         self.income_criteria = ['Gross Profit', 'Cost Of Revenue', 'Total Revenue', 'Total Expenses', 
                        'Interest Expense', 'Operating Revenue', 'Pretax Income', 'EBITDA', 'EBIT', 
                        'Tax Provision', 'Diluted EPS', 'Basic EPS',
@@ -26,17 +27,6 @@ class FinancialStatement:
     def cashflow_df(self, df: pd.DataFrame) -> pd.DataFrame:
         df = self.rename_reset_Idx(df, self.idx_column)
         return df.loc[df[self.idx_column].isin(self.cashflow_criteria)]
-
-    @staticmethod
-    def rename_reset_Idx(df: pd.DataFrame, name: str) -> pd.DataFrame:
-        current_year = datetime.now().year
-        years = 4
-        cols_year = []
-        for i in range(years):
-             cols_year.append(f"{current_year - i}")
-        df = df.set_axis(cols_year, axis="columns")
-        df.reset_index(inplace=True)
-        return df.rename(columns={'index': name})
     
     @staticmethod
     def calculate_growing(df: pd.DataFrame) -> pd.DataFrame:
