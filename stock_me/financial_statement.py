@@ -16,18 +16,6 @@ class FinancialStatement(StockMe):
         self.cashflow_criteria = ['Operating Cash Flow', 'Investing Cash Flow', 
                                   'Financing Cash Flow', 'Free Cash Flow']
     
-    def incomestmt_df(self, df: pd.DataFrame) -> pd.DataFrame:
-         df = self.rename_reset_Idx(df, self.idx_column)
-         return df.loc[df[self.idx_column].isin(self.income_criteria)]
-    
-    def balancesheet_df(self, df: pd.DataFrame) -> pd.DataFrame:
-         df = self.rename_reset_Idx(df, self.idx_column)
-         return df.loc[df[self.idx_column].isin(self.balancesheet_criteria)]
-
-    def cashflow_df(self, df: pd.DataFrame) -> pd.DataFrame:
-        df = self.rename_reset_Idx(df, self.idx_column)
-        return df.loc[df[self.idx_column].isin(self.cashflow_criteria)]
-    
     @staticmethod
     def calculate_growing(df: pd.DataFrame) -> pd.DataFrame:
         nums_cols = len(df.columns) - 1

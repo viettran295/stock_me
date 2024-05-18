@@ -4,6 +4,10 @@ from datetime import datetime
 class StockMe:
     def __init__(self) -> None:
         self.idx_column = "Criteria"
+
+    def pick_criteria(self, df: pd.DataFrame, criteria) -> pd.DataFrame:
+        df = self.rename_reset_Idx(df, self.idx_column)
+        return df.loc[df[self.idx_column].isin(criteria)]
     
     @staticmethod
     def rename_reset_Idx(df: pd.DataFrame, name: str) -> pd.DataFrame:
