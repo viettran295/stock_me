@@ -1,4 +1,4 @@
-import pandas as pd 
+import polars as pl
 from .stock_me import StockMe
 from datetime import datetime as dt
 import plotly.express as px
@@ -16,15 +16,15 @@ class BalanceSheet(StockMe):
         self.equity_to_liability = ["Total Liabilities Net Minority Interest", 
                                 "Total Equity Gross Minority Interest"]
         
-    def show_asset_structure(self, df: pd.DataFrame):
+    def show_asset_structure(self, df: pl.DataFrame):
         df = self.pick_criteria(df, self.asset_structure)
-        df = pd.melt(df, id_vars=[self.idx_column], value_vars=[f"{dt.now().year - i}" for i in range(self.analyze_years)],
-                    var_name="Year", value_name="Dollars")
-        fig = px.bar(df, x=df["Year"], y=df["Dollars"], color=df[self.idx_column], template="plotly_dark",
+        df = df.melt(id_vars=[self.idx_column], value_vars=[f"{dt.now().year - i}" for i in range(self.analyze_years)],
+                    variable_name="Year", value_name="Dollars")
+        fig = px.bar(x=df["Year"], y=df["Dollars"], color=df[self.idx_column], template="plotly_dark",
                     title="Asset Structure", width=800)
         fig.show()
     
-    def show_equity_to_liability(self, df: pd.DataFrame):
+    def show_equity_to_liability(self, df: pl.DataFrame):
         df = self.pick_criteria(df, self.equity_to_liability)
         fig = make_subplots(rows=1, cols=self.analyze_years, 
                             subplot_titles=[f"{self.currYear-i}" for i in range(self.analyze_years)],
