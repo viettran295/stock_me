@@ -32,4 +32,6 @@ class FinancialStatement(StockMe):
                 fig.add_trace(go.Scatter(
                                 x=df.columns[:growing_col:-1], y=df.iloc[i][:growing_col:-1],
                                 name=df.iloc[i][0]))
+        fig.update_layout(title="% Growing", title_font_size=30, 
+                        title_x=0.4, title_y=0.99, template="plotly_dark",)
         fig.show()
