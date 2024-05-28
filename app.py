@@ -37,17 +37,16 @@ app.layout = html.Div(
                 ],
             style={"display": "flex",
                     "justifyContent": "center"},
-        ),
+            ),
+        html.Br(),
         # Define layout with DataTable
-        # dash_table.DataTable(
-        #             data=df.to_dicts(),
-        #             columns=[{'id': c, 'name': c} for c in df.columns]
-        #             )
+        html.Div(id="financial_stmt")
             ]
 )
 
 
 @callback(
+    Output("financial_stmt", "children"),
     Input("search_button", "n_clicks"),
     Input("search_stock", "value")
 )
@@ -56,7 +55,20 @@ def search_stock(_, search_stock):
         ticker = yf.Ticker(f"{search_stock}")
         cashflow = ticker.cashflow
         df = fs.pick_criteria(cashflow, fs.cashflow_criteria)
-        print(df)
+        return dash_table.DataTable(
+                    data=df.to_dicts(),
+                    columns=[{'id': c, 'name': c} for c in df.columns],
+                    style_header={
+                        'backgroundColor': 'rgb(0, 0, 0)',
+                        'color': 'white',
+                        'fontWeight': 'bold',
+                        'border': '1px solid white',
+                        },
+                    style_data={
+                        'backgroundColor': 'rgb(50, 50, 50)',
+                        'color': 'white'
+                        },
+                    )
 
 if __name__ == '__main__':
     app.run_server(debug=True)
