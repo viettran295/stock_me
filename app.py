@@ -1,5 +1,8 @@
-import pandas as pd
-from dash import Dash, dash_table, dcc, html, Input, Output, ctx, callback, State
+from dash import (
+                Dash, dcc, html, Input, 
+                Output, ctx, callback, 
+            )
+from utils import dash_utils
 import yfinance as yf 
 import stock_me.financial_statement as fs
 import polars as pl
@@ -53,22 +56,24 @@ app.layout = html.Div(
 def search_stock(_, search_stock):
     if "search_button" == ctx.triggered_id:
         ticker = yf.Ticker(f"{search_stock}")
-        cashflow = ticker.cashflow
-        df = fs.pick_criteria(cashflow, fs.cashflow_criteria)
-        return dash_table.DataTable(
-                    data=df.to_dicts(),
-                    columns=[{'id': c, 'name': c} for c in df.columns],
-                    style_header={
-                        'backgroundColor': 'rgb(0, 0, 0)',
-                        'color': 'white',
-                        'fontWeight': 'bold',
-                        'border': '1px solid white',
-                        },
-                    style_data={
-                        'backgroundColor': 'rgb(50, 50, 50)',
-                        'color': 'white'
-                        },
-                    )
+        financial_stmts = {
+            'income': ticker.incomestmt,
+            'balancesheet': ticker.balancesheet,
+            'cashflow': ticker.cashflow
+        }
+        
+        criteria = {
+            'income': fs.income_criteria,
+            'balancesheet': fs.balancesheet_criteria,
+            'cashflow': fs.cashflow_criteria
+        }
+        
+        tables = []
+        for stmt, data in financial_stmts.items():
+            df = fs.pick_criteria(data, criteria[stmt])
+            table = dash_utils.factory_DashTable(df)
+            tables.append(table)
+        return html.Div(tables)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
