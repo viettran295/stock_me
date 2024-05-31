@@ -1,6 +1,11 @@
 from dash.dash_table import DataTable, FormatTemplate
 import polars as pl 
 
+colors = {
+    'background': '#111111',
+    'text': '#7FDBFF'
+    }
+
 def factory_DashTable(df: pl.DataFrame):
     return DataTable(
                 data=df.to_dicts(),
