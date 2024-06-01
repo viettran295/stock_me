@@ -22,7 +22,7 @@ class BalanceSheet(StockMe):
                     variable_name="Year", value_name="Dollars")
         fig = px.bar(x=df["Year"], y=df["Dollars"], color=df[self.idx_column], template="plotly_dark",
                     title="Asset Structure", width=800)
-        fig.show()
+        return fig
     
     def show_equity_to_liability(self, df: pl.DataFrame):
         df = self.pick_criteria(df, self.equity_to_liability)
@@ -37,4 +37,4 @@ class BalanceSheet(StockMe):
                         marker=dict(line=dict(color='#000000', width=1)))
         fig.update_layout(title="Equity to liability", title_font_size=30, 
                         title_x=0.4, title_y=0.99, template="plotly_dark",)
-        fig.show()
+        return fig
