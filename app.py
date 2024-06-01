@@ -12,7 +12,12 @@ pl.Config.set_tbl_rows(100)
 
 # Create Dash application
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css])
+app = Dash(
+        __name__, 
+        external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css],
+        suppress_callback_exceptions=True
+        )
+
 app.title = "_Stock Me_"
 fs = fs.FinancialStatement()
 

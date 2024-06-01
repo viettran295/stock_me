@@ -36,4 +36,4 @@ class FinancialStatement(StockMe):
                             name=df[i, 0]))
         fig.update_layout(title="% Growing", title_font_size=30, 
                         title_x=0.4, title_y=0.99, template="plotly_dark",)
-        fig.show()
+        return fig
