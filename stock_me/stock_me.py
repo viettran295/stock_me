@@ -3,6 +3,13 @@ from datetime import datetime as dt
 import polars as pl 
 
 class StockMe:
+    _instace = None 
+
+    def __new__(cls):
+        if cls._instace is None:
+            cls._instace = super().__new__(cls)
+        return cls._instace
+
     def __init__(self) -> None:
         self.idx_column = "Criteria"
         self.currYear = dt.now().year
