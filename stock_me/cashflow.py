@@ -1,5 +1,6 @@
 import polars as pl
 import plotly.express as px
+import plotly.graph_objects as go 
 from datetime import datetime as dt
 from .stock_me import StockMe
 
@@ -15,4 +16,8 @@ class CashFlow(StockMe):
                     variable_name="Year", value_name="Dollars")
         fig = px.bar(df, x="Year", y="Dollars", color=df[self.idx_column], template="plotly_dark",
                     title="Cash flow", width=800)
+        # Aggregate net cash flow by year
+        df_agg = df.group_by("Year").agg(pl.col("Dollars").sum()).sort(by="Year")
+        fig.add_trace(go.Line(x=df_agg["Year"], y=df_agg["Dollars"], name="Net cash flow"))
+        fig.update_layout(legend_title_text="Cash flow types")
         return fig
