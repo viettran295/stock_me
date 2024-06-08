@@ -6,7 +6,7 @@ import stock_me.balance_sheet as bs
 bs = bs.BalanceSheet()
 
 layout = html.Div([
-            html.H1("Balancesheet", style={"color": dash_utils.colors["text"]}),
+            html.H1("Balance sheet", style={"color": dash_utils.colors["text"]}),
             dcc.Graph(id="equity_to_liability"),
             dcc.Graph(id="asset_structure")
             ])
