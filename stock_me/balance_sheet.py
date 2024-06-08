@@ -37,8 +37,7 @@ class BalanceSheet(StockMe):
 
         fig.update_traces(textfont_size=12,
                         marker=dict(line=dict(color='#000000', width=1)))
-        fig.update_layout(title="Equity to liability", title_font_size=30, 
-                        title_x=0.4, title_y=0.99, template="plotly_dark",)
+        fig.update_layout(title="Equity to liability", title_font_size=17, template="plotly_dark",)
         return fig
     
     def show_quick_ratio(self, df: pl.DataFrame):
