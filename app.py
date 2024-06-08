@@ -17,6 +17,7 @@ app = Dash(
         external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css],
         suppress_callback_exceptions=True
         )
+server = app.server
 
 app.title = "_Stock Me_"
 fs = fs.FinancialStatement()
@@ -122,4 +123,4 @@ def search_stock(_, search_stock):
         return html.Div(tables)
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
