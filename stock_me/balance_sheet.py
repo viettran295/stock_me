@@ -16,6 +16,8 @@ class BalanceSheet(StockMe):
         self.equity_to_liability = ["Total Liabilities Net Minority Interest", 
                                 "Total Equity Gross Minority Interest"]
         
+        self.ratio_analysis = ["Current Assets", "Inventory", "Current Liabilities"]
+        
     def show_asset_structure(self, df: pl.DataFrame):
         df = self.pick_criteria(df, self.asset_structure)
         df = df.melt(id_vars=[self.idx_column], value_vars=[f"{dt.now().year - i}" for i in range(self.analyze_years)],
@@ -38,3 +40,35 @@ class BalanceSheet(StockMe):
         fig.update_layout(title="Equity to liability", title_font_size=30, 
                         title_x=0.4, title_y=0.99, template="plotly_dark",)
         return fig
+    
+    def show_quick_ratio(self, df: pl.DataFrame):
+        """
+        Liquidity ratio: current ratio, quick ratio, cash ratio. This graph is only for quick ratio
+        Quick ratio = quick assets / current liabilities
+        with: quick assets = current assets - inventory
+        """
+        df = self.pick_criteria(df, self.ratio_analysis)
+        if df[self.idx_column].is_in(["Inventory"]).any():
+            df = df.melt(id_vars=[self.idx_column], value_vars=[f"{dt.now().year - i}" for i in range(self.analyze_years)],
+                        variable_name="Year", value_name="Dollars")
+            new_df = []
+            df = df.drop_nulls()
+            for i in range(self.analyze_years-1):
+                year = dt.now().year - i
+                curr_assets = df.filter((pl.col(self.idx_column) == "Current Assets") & (pl.col("Year") == f"{year}"))
+                inventory = df.filter((pl.col(self.idx_column) == "Inventory") & (pl.col("Year") == f"{year}"))
+                # quick assets = current assets - inventory
+                quick_assets = curr_assets["Dollars"][0] - inventory["Dollars"][0]
+                new_row = {
+                        self.idx_column: "Quick Assets",
+                        "Year": f"{year}",
+                        "Dollars": quick_assets
+                }
+                new_df.append(new_row)
+            new_df = pl.DataFrame(new_df)
+            df = df.vstack(new_df)
+            df = df.sort("Year")
+            df = df.filter(pl.col(self.idx_column).is_in(["Current Liabilities", "Quick Assets"]))
+            fig = px.bar(df, x="Year", y="Dollars", color=df["Criteria"], template="plotly_dark",
+                title="Quick ratio", width=800)
+            return fig
