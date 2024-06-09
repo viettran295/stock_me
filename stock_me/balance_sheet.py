@@ -56,8 +56,12 @@ class BalanceSheet(StockMe):
                 year = dt.now().year - i
                 curr_assets = df.filter((pl.col(self.idx_column) == "Current Assets") & (pl.col("Year") == f"{year}"))
                 inventory = df.filter((pl.col(self.idx_column) == "Inventory") & (pl.col("Year") == f"{year}"))
-                # quick assets = current assets - inventory
-                quick_assets = curr_assets["Dollars"][0] - inventory["Dollars"][0]
+                try:
+                    # quick assets = current assets - inventory
+                    quick_assets = curr_assets["Dollars"][0] - inventory["Dollars"][0]
+                except:
+                    self.error_log.error("Inventory does not exist", exc_info=True)
+                    return
                 new_row = {
                         self.idx_column: "Quick Assets",
                         "Year": f"{year}",

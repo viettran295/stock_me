@@ -1,9 +1,11 @@
 import pandas as pd
 from datetime import datetime as dt
 import polars as pl 
+import logging
 
 class StockMe:
     _instace = None 
+    logging.basicConfig(level=logging.ERROR)
 
     def __new__(cls):
         if cls._instace is None:
@@ -14,6 +16,7 @@ class StockMe:
         self.idx_column = "Criteria"
         self.currYear = dt.now().year
         self.analyze_years = 0
+        self.error_log = logging
 
     def pick_criteria(self, df: pd.DataFrame, criteria) -> pl.DataFrame:
         df = pl.from_pandas(self.rename_reset_idx(df, self.idx_column))
