@@ -18,6 +18,6 @@ class CashFlow(StockMe):
                     title="Cash flow", width=800)
         # Aggregate net cash flow by year
         df_agg = df.group_by("Year").agg(pl.col("Dollars").sum()).sort(by="Year")
-        fig.add_trace(go.Line(x=df_agg["Year"], y=df_agg["Dollars"], name="Net cash flow"))
+        fig.add_trace(go.Scatter(x=df_agg["Year"], y=df_agg["Dollars"], name="Net cash flow"))
         fig.update_layout(legend_title_text="Cash flow types")
         return fig
