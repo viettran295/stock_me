@@ -40,12 +40,6 @@ app.layout = html.Div(
                     type="text",
                     placeholder="ENTER YOUR STOCK",
                     ),
-                dbc.Button(
-                    id="search_button",
-                    children="Search",
-                    color="light",
-                    href="/"
-                    ),
                 ],
             style={"display": "flex",
                     "justifyContent": "center"},
@@ -94,33 +88,6 @@ def route(pathname):
             return page_cashflow.layout
         case "/":
             app.layout
-
-@callback(
-    Output("financial_stmt", "children"),
-    Input("search_button", "n_clicks"),
-    Input("search_stock", "value")
-)
-def search_stock(_, search_stock):
-    if "search_button" == ctx.triggered_id:
-        ticker = yf.Ticker(f"{search_stock}")
-        financial_stmts = {
-            'income': ticker.incomestmt,
-            'balancesheet': ticker.balancesheet,
-            'cashflow': ticker.cashflow
-        }
-        
-        criteria = {
-            'income': fs.income_criteria,
-            'balancesheet': fs.balancesheet_criteria,
-            'cashflow': fs.cashflow_criteria
-        }
-        
-        tables = []
-        for stmt, data in financial_stmts.items():
-            df = fs.pick_criteria(data, criteria[stmt])
-            table = dash_utils.factory_DashTable(df)
-            tables.append(table)
-        return html.Div(tables)
 
 if __name__ == '__main__':
     app.run_server(debug=False)
