@@ -1,6 +1,6 @@
 from dash import html, dcc, Input, Output, callback
 from utils import dash_utils
-import stock_me.financial_statement as fs
+import stock_me.income_stmt as fs
 import yfinance as yf 
 
 fs = fs.FinancialStatement()

@@ -6,7 +6,7 @@ import dash_bootstrap_components as dbc
 from pages import page_balancesheet, page_cashflow, page_income_stmt
 from utils import dash_utils
 import yfinance as yf 
-import stock_me.financial_statement as fs
+import stock_me.income_stmt as fs
 import polars as pl
 pl.Config.set_tbl_rows(100)
 

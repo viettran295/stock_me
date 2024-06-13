@@ -9,11 +9,6 @@ class FinancialStatement(StockMe):
                        'Interest Expense', 'Operating Revenue', 'Pretax Income', 'EBITDA', 'EBIT', 
                        'Tax Provision', 'Diluted EPS', 'Basic EPS',
                        'Net Income From Continuing Operation Net Minority Interest']
-        self.balancesheet_criteria = ['Total Assets', 'Total Liabilities Net Minority Interest',  
-                         'Total Equity Gross Minority Interest', 'Total Capitalization', 
-                         'Total Debt', 'Current Debt', 'Investments And Advances', 'Cash And Cash Equivalents']
-        self.cashflow_criteria = ['Operating Cash Flow', 'Investing Cash Flow', 
-                                  'Financing Cash Flow', 'Free Cash Flow']
     
     @staticmethod
     def calculate_growing(df: pl.DataFrame) -> pl.DataFrame:
