@@ -7,8 +7,8 @@ class FinancialStatement(StockMe):
         super().__init__()
         self.income_criteria = ['Gross Profit', 'Cost Of Revenue', 'Total Revenue', 'Total Expenses', 
                        'Interest Expense', 'Operating Revenue', 'Pretax Income', 'EBITDA', 'EBIT', 
-                       'Tax Provision', 'Diluted EPS', 'Basic EPS',
-                       'Net Income From Continuing Operation Net Minority Interest']
+                       'Tax Provision', 'Diluted EPS', 'Basic EPS', 'Operating Income',
+                       'Net Income']
     
     @staticmethod
     def calculate_growing(df: pl.DataFrame) -> pl.DataFrame:

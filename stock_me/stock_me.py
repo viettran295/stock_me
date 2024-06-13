@@ -20,6 +20,11 @@ class StockMe:
 
     def pick_criteria(self, df: pd.DataFrame, criteria) -> pl.DataFrame:
         df = pl.from_pandas(self.rename_reset_idx(df, self.idx_column))
+        df = df.with_columns(
+                    df[self.idx_column].map_elements(lambda x: "Net Profit" 
+                                                     if x == "Net Income From Continuing Operation Net Minority Interest" else x,
+                                                     return_dtype=pl.Utf8)
+                )
         return df.filter(pl.col(f'{self.idx_column}').is_in(criteria))
 
     def rename_reset_idx(self, df: pd.DataFrame, name: str) -> pd.DataFrame:
