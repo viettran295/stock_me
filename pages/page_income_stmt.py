@@ -7,15 +7,19 @@ fs = fs.FinancialStatement()
 
 layout = html.Div([
             html.H1("Income statement", style={"color": dash_utils.colors["text"]}),
-            dcc.Graph(id='growing_graph')
+            dcc.Graph(id='growing_graph'),
+            dcc.Graph(id='profitability_graph'),
             ])
 
 @callback(
         Output("growing_graph", "figure"),
+        Output("profitability_graph", "figure"),
         Input("search_stock", "value")
 )
 def show_graph(search_stock):
-    ticker = yf.Ticker(search_stock)
-    income = ticker.incomestmt
-    df = fs.pick_criteria(income, fs.income_criteria)
-    return fs.show_growing(df)
+        ticker = yf.Ticker(search_stock)
+        income = ticker.incomestmt
+        return  [
+                fs.show_growing(income),
+                fs.show_profitability_ratios(income),
+                ]
