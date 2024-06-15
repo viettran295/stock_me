@@ -33,7 +33,7 @@ class FinancialStatement(StockMe):
                                 x=df.columns[growing_col_idx:], y=df.row(i)[growing_col_idx:],
                             name=df[i, 0]))
         fig.update_layout(title="% Growing", title_font_size=30, 
-                        title_x=0.4, title_y=0.99, template="plotly_dark",)
+                        title_x=0.47, title_y=0.99, template="plotly_dark",)
         return fig
     
     def show_profitability_ratios(self, df: pl.DataFrame):
