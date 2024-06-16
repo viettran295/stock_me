@@ -14,7 +14,7 @@ pl.Config.set_tbl_rows(100)
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
 app = Dash(
         __name__, 
-        external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css],
+        external_stylesheets=[dbc.themes.DARKLY, dbc_css],
         suppress_callback_exceptions=True
         )
 server = app.server
