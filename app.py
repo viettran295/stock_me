@@ -29,7 +29,8 @@ app.layout = html.Div(
         html.H1("Stock Me app", 
                 style={"textAlign": "center",
                         "color": dash_utils.colors["text"]}),
-        html.Div("Web app to quickly analyse finacial statement", 
+        html.Div("Analyse stock with me. \
+                 StockMe gives you a quick look about financial health of public company", 
                 style={"textAlign": "center",
                         "color": dash_utils.colors["text"]}),
         html.Br(),
