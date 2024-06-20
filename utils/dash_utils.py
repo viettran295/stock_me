@@ -1,5 +1,10 @@
 from dash.dash_table import DataTable, FormatTemplate
 import polars as pl 
+import shutil
+import logging
+logging.basicConfig(level=logging.ERROR)
+
+DATA_PATH = "./data"
 
 colors = {
     'background': '#111111',
@@ -25,3 +30,9 @@ def factory_DashTable(df: pl.DataFrame):
                     'color': 'white'
                     },
                 )
+
+def clean_folder(folder: str):
+    try:
+        shutil.rmtree(folder)
+    except Exception as e:
+        logging.error("Error while deleting folder")
