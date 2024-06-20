@@ -2,6 +2,8 @@ from dash import html, dcc, Input, Output, callback
 from utils import dash_utils
 import stock_me.income_stmt as fs
 import yfinance as yf 
+import pandas as pd 
+from utils import dash_utils
 
 fs = fs.FinancialStatement()
 
@@ -17,8 +19,8 @@ layout = html.Div([
         Input("search_stock", "value")
 )
 def show_graph(search_stock):
-        ticker = yf.Ticker(search_stock)
-        income = ticker.incomestmt
+        dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_incomestmt.csv"
+        income = pd.read_csv(dataPath, index_col=0)
         return  [
                 fs.show_growing(income),
                 fs.show_profitability_ratios(income),

@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 from utils import dash_utils
 import yfinance as yf
 import stock_me.balance_sheet as bs 
+import pandas as pd
 
 bs = bs.BalanceSheet()
 
@@ -31,8 +32,8 @@ layout = html.Div([
         State("alert_no_inventory", "is_open")
 )
 def show_graph(search_stock, is_open):
-        ticker = yf.Ticker(search_stock)
-        balancesheet = ticker.balancesheet
+        dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_balancesheet.csv"
+        balancesheet = pd.read_csv(dataPath, index_col=0)
         if "Inventory" in balancesheet.index:
                 is_open = False
         else:

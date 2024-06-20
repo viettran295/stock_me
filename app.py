@@ -9,6 +9,7 @@ import yfinance as yf
 import stock_me.income_stmt as fs
 import polars as pl
 pl.Config.set_tbl_rows(100)
+import os 
 
 # Create Dash application
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
@@ -88,7 +89,21 @@ def route(pathname):
         case "/cashflow":
             return page_cashflow.layout
         case "/":
+            dash_utils.clean_folder(dash_utils.DATA_PATH)
             app.layout
+
+@callback(
+    Input("search_stock", "value")
+)
+def fetch_stock(search_stock):
+        sheets = ["incomestmt", "balancesheet", "cashflow"]
+        ticker = yf.Ticker(search_stock)
+        if not os.path.exists(dash_utils.DATA_PATH):
+            os.mkdir(dash_utils.DATA_PATH)
+        for sheet in sheets:
+            dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_{sheet}.csv"
+            df = getattr(ticker, sheet)
+            df.to_csv(dataPath)
 
 if __name__ == '__main__':
     app.run_server(debug=False)
