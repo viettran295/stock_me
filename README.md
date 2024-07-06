@@ -1,2 +1,6 @@
 # Stock Me
-*Stock_me* analyse and visualize financial statement with predefined financial criteria
+*Stock Me* is fast and simple tool to analyse financial health of public company: https://stockme.onrender.com/cashflow
+
+<br />
+
+![](intro.gif)
