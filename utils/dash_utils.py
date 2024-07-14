@@ -3,6 +3,8 @@ import polars as pl
 import shutil
 import logging
 logging.basicConfig(level=logging.ERROR)
+from typing import List
+import yfinance as yf
 
 DATA_PATH = "./data"
 
@@ -36,3 +38,20 @@ def clean_folder(folder: str):
         shutil.rmtree(folder)
     except Exception as e:
         logging.error("Error while deleting folder")
+
+def fetch_market_index() -> str:
+    market_idx = {
+        "^GSPC": "S&P500",
+        "^IXIC": "NASDAQ Composite",
+        "^GDAXI": "DAX Performance-Index",
+        "BTC-USD": "Bitcoin USD",
+        "ETH-USD": "Ethereum USD",
+    }
+    res = "\U0001F4B0"
+    for key, value in market_idx.items():
+        ticker = yf.Ticker(key)
+        price_high = ticker.info["regularMarketDayHigh"]
+        prev_close = ticker.info["previousClose"]
+        percent_change = ((price_high - prev_close) / prev_close) * 100
+        res += f"{value} {'{:,.2f}'.format(price_high)} {'{:,.2f}'.format(percent_change)}% -- "
+    return res

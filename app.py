@@ -27,6 +27,11 @@ fs = fs.FinancialStatement()
 app.layout = html.Div(
     style={"backgroundColor": dash_utils.colors["background"]},
     children= [
+        html.Marquee(id="market_index", loop=True,
+                     style={"font-size": "30px",
+                            "font-family": "Courier",
+                            "color": "#a9ff64",
+                     }),
         html.H1("Stock Me app", 
                 style={"textAlign": "center",
                         "color": dash_utils.colors["text"]}),
@@ -104,6 +109,13 @@ def fetch_stock(search_stock):
             dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_{sheet}.csv"
             df = getattr(ticker, sheet)
             df.to_csv(dataPath)
+
+@callback(
+    Output("market_index", "children"),
+    Input("url", "pathname")
+)
+def display_market_index(*arg):
+    return dash_utils.fetch_market_index()
 
 if __name__ == '__main__':
     app.run_server(debug=False)
