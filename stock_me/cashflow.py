@@ -11,6 +11,9 @@ class CashFlow(StockMe):
                           "Financing Cash Flow", "End Cash Position"]
         
     def show_cashflow(self, df: pl.DataFrame):
+        """
+        Visulize cash flow types
+        """
         df = self.pick_criteria(df, self.cash_flow)
         df = df.melt(id_vars=[self.idx_column], value_vars=[f"{dt.now().year - i}" for i in range(self.analyze_years)],
                     variable_name="Year", value_name="Dollars")
