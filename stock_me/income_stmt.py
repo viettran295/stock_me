@@ -45,9 +45,9 @@ class FinancialStatement(StockMe):
     def show_profitability_ratios(self, df: pl.DataFrame):
         """
         Visualize profitability ratios: 
-            - Gross profit margin
-            - Net profit margin
-            - Operating profit margin
+            - Gross profit margin = revenue - COGS (cost of goods sold)
+            - Operating profit margin = gross profit - operating expenses - depreciation (tangible assets) - amortization (intagible items)
+            - Net profit margin = operating profit - tax - interest
         """
         df = self.pick_criteria(df, self.profitability_ratios)
         years = df.columns[1:]
