@@ -101,20 +101,26 @@ def route(pathname):
     Input("search_stock", "value")
 )
 def fetch_stock(search_stock):
-        sheets = ["incomestmt", "balancesheet", "cashflow"]
-        ticker = yf.Ticker(search_stock)
-        if not os.path.exists(dash_utils.DATA_PATH):
-            os.mkdir(dash_utils.DATA_PATH)
-        for sheet in sheets:
-            dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_{sheet}.csv"
-            df = getattr(ticker, sheet)
-            df.to_csv(dataPath)
+    """
+    Fetch and cache data from yh finace
+    """
+    sheets = ["incomestmt", "balancesheet", "cashflow"]
+    ticker = yf.Ticker(search_stock)
+    if not os.path.exists(dash_utils.DATA_PATH):
+        os.mkdir(dash_utils.DATA_PATH)
+    for sheet in sheets:
+        dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_{sheet}.csv"
+        df = getattr(ticker, sheet)
+        df.to_csv(dataPath)
 
 @callback(
     Output("market_index", "children"),
     Input("url", "pathname")
 )
 def display_market_index(*arg):
+    """
+    Fetch market index
+    """
     return dash_utils.fetch_market_index()
 
 if __name__ == '__main__':
