@@ -10,7 +10,7 @@ class FinancialStatement(StockMe):
                        'Interest Expense', 'Operating Revenue', 'Pretax Income', 'EBITDA', 'EBIT', 
                        'Tax Provision', 'Diluted EPS', 'Basic EPS', 'Operating Income',
                        'Net Income']
-        self.profitability_ratios = ["Operating Income", "Gross Profit", "Net Income"]
+        self.profitability_ratios = ["Total Revenue", "Operating Income", "Gross Profit", "Net Income"]
     
     @staticmethod
     def calculate_growing(df: pl.DataFrame) -> pl.DataFrame:
@@ -43,15 +43,24 @@ class FinancialStatement(StockMe):
         return fig
     
     def show_profitability_ratios(self, df: pl.DataFrame):
+        """
+        Visualize profitability ratios: 
+            - Gross profit margin
+            - Net profit margin
+            - Operating profit margin
+        """
         df = self.pick_criteria(df, self.profitability_ratios)
         years = df.columns[1:]
         col = 1
         fig = make_subplots(rows=1, cols=len(years), shared_yaxes=True)
+        # Extract total revenue in 3 years from data frame
+        revenue = df.filter(pl.col(self.idx_column) == "Total Revenue").select(pl.exclude(self.idx_column))
         for year in years:
-            fig.add_trace(go.Bar(x=df[self.idx_column], y=df[year], name=year), 1, col)
+            # Calculate margin (ratio of profit to revenue)
+            fig.add_trace(go.Bar(x=df[self.idx_column], y=(df[year] / revenue[year][0]) * 100, name=year), 1, col)
             fig.update_xaxes(title_text=year, row=1, col=col)
             col += 1
         fig.update_yaxes(title_text="Dollars", row=1, col=1,)
-        fig.update_layout(title="Profitability ratios", title_font_size=30, 
+        fig.update_layout(title="Profitability ratios margin", title_font_size=30, 
                                 title_x=0.5, title_y=0.99, template="plotly_dark",)
         return fig
