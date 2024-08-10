@@ -14,6 +14,9 @@ class FinancialStatement(StockMe):
     
     @staticmethod
     def calculate_growing(df: pl.DataFrame) -> pl.DataFrame:
+        """
+        Calculate percent growing of income criteria
+        """
         nums_cols = len(df.columns) - 1
         for i in range(1, nums_cols):
             grow_df = (df[df.columns[i]] - df[df.columns[i+1]]) / df[df.columns[i+1]] * 100
@@ -23,6 +26,9 @@ class FinancialStatement(StockMe):
         return df
     
     def show_growing(self, df: pl.DataFrame):
+        """
+        Visualize percent growing of metrics
+        """
         df = self.pick_criteria(df, self.income_criteria)
         df = self.calculate_growing(df)
         growing_col_idx = 5
