@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 from .stock_me import StockMe
 from plotly.subplots import make_subplots
 
-class FinancialStatement(StockMe):
+class IncomeStatement(StockMe):
     def __init__(self) -> None:
         super().__init__()
         self.income_criteria = ['Gross Profit', 'Cost Of Revenue', 'Total Revenue', 'Total Expenses', 

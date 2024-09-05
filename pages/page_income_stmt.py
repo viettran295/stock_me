@@ -5,7 +5,7 @@ import yfinance as yf
 import pandas as pd 
 from utils import dash_utils
 
-fs = fs.FinancialStatement()
+fs = fs.IncomeStatement()
 
 layout = html.Div([
             html.H1("Income statement", style={"color": dash_utils.colors["text"]}),

@@ -21,7 +21,7 @@ app = Dash(
 server = app.server
 
 app.title = "_Stock Me_"
-fs = fs.FinancialStatement()
+fs = fs.IncomeStatement()
 
 # Define layout with input to search stock ticker
 app.layout = html.Div(
