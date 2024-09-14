@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime as dt
 import polars as pl 
 import logging
+from typing import List
 
 class StockMe:
     _instace = None 
@@ -35,3 +36,10 @@ class StockMe:
         df = df.set_axis(cols_year, axis="columns")
         df.reset_index(inplace=True)
         return df.rename(columns={'index': name})
+    
+    def get_value_ofType(self, df: pl.DataFrame, criteria: List[str], get_type: str) -> pl.DataFrame:
+        try:
+            df = self.pick_criteria(df, criteria)
+            return df.filter(pl.col(self.idx_column) == get_type)
+        except:
+            return None

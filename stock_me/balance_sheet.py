@@ -17,6 +17,7 @@ class BalanceSheet(StockMe):
                                 "Total Equity Gross Minority Interest"]
         
         self.ratio_analysis = ["Current Assets", "Inventory", "Current Liabilities"]
+        self.balance_sheet = self.asset_structure + ["Invested Capital"]
         
     def show_asset_structure(self, df: pl.DataFrame):
         df = self.pick_criteria(df, self.asset_structure)

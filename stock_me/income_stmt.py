@@ -1,7 +1,9 @@
 import polars as pl
 import plotly.graph_objects as go
+import plotly.express as px
 from .stock_me import StockMe
 from plotly.subplots import make_subplots
+from .balance_sheet import BalanceSheet
 
 class IncomeStatement(StockMe):
     def __init__(self) -> None:
@@ -64,3 +66,25 @@ class IncomeStatement(StockMe):
         fig.update_layout(title="Profitability ratios margin", title_font_size=30, 
                                 title_x=0.5, title_y=0.99, template="plotly_dark",)
         return fig
+
+    def show_ROI(self, df_incstmt: pl.DataFrame, df_bs: pl.DataFrame):
+        bs = BalanceSheet()
+        net_profit = self.get_value_ofType(df_incstmt, self.income_criteria, "Net Income")
+        investment = self.get_value_ofType(df_bs, bs.balance_sheet, "Invested Capital") 
+        years = net_profit.columns[1:]
+        ROI_df = pl.DataFrame({self.idx_column: "ROI"})
+        for year in years: 
+            try:
+                ROI_df = ROI_df.with_columns((net_profit.select(pl.col(year)) / investment.select(pl.col(year).abs())) * 100)
+            except:
+                self.error_log.error("Fail to calculate ROI", exc_info=True)
+        fig = px.bar(ROI_df, x=self.idx_column, y=years, barmode='group')
+        fig.update_layout(title="ROI - Return on Investment", template="plotly_dark",
+                         title_font_size=30, title_x=0.5, title_y=0.99)
+        return fig
+
+    #TODO: implement ROA, ROE, ROI, EBITDA and compare to others
+    #TODO: Asset turnover ratio, Inventory turnover ratio
+    # ?: Amortization for intangible assets
+    # ?: Expense negative / positive
+    # ?: ROI for investment cash flow
