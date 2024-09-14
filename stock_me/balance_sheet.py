@@ -62,7 +62,7 @@ class BalanceSheet(StockMe):
                     quick_assets = curr_assets["Dollars"][0] - inventory["Dollars"][0]
                 except:
                     self.error_log.error("Inventory does not exist", exc_info=True)
-                    return
+                    continue
                 new_row = {
                         self.idx_column: "Quick Assets",
                         "Year": f"{year}",
