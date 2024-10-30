@@ -34,7 +34,8 @@ class BalanceSheet(StockMe):
                             specs=[[{'type': 'domain'} for _ in range(self.analyze_years)]])
         for i in range(self.analyze_years):
             year = self.currYear - i
-            fig.add_trace(go.Pie(values=df[f"{year}"], labels=df["Criteria"], hole=.3), row=1, col=i+1)
+            if (df[f"{year}"] > 0).all():
+                fig.add_trace(go.Pie(values=df[f"{year}"], labels=df["Criteria"], hole=.3), row=1, col=i+1)
 
         fig.update_traces(textfont_size=12,
                         marker=dict(line=dict(color='#000000', width=1)))
