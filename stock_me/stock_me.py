@@ -15,7 +15,7 @@ class StockMe:
 
     def __init__(self) -> None:
         self.idx_column = "Criteria"
-        self.currYear = dt.now().year
+        self.currYear = dt.now().year - 1
         self.analyze_years = 0
         self.error_log = logging
 

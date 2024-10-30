@@ -21,7 +21,7 @@ class BalanceSheet(StockMe):
         
     def show_asset_structure(self, df: pl.DataFrame):
         df = self.pick_criteria(df, self.asset_structure)
-        df = df.melt(id_vars=[self.idx_column], value_vars=[f"{dt.now().year - i}" for i in range(self.analyze_years)],
+        df = df.melt(id_vars=[self.idx_column], value_vars=[f"{self.currYear - i}" for i in range(self.analyze_years)],
                     variable_name="Year", value_name="Dollars")
         fig = px.bar(df, x="Year", y="Dollars", color=df[self.idx_column], template="plotly_dark",
                     title="Asset Structure", width=800)
@@ -50,7 +50,7 @@ class BalanceSheet(StockMe):
         """
         df = self.pick_criteria(df, self.ratio_analysis)
         if df[self.idx_column].is_in(["Inventory"]).any():
-            df = df.melt(id_vars=[self.idx_column], value_vars=[f"{dt.now().year - i}" for i in range(self.analyze_years)],
+            df = df.melt(id_vars=[self.idx_column], value_vars=[f"{self.currYear- i}" for i in range(self.analyze_years)],
                         variable_name="Year", value_name="Dollars")
             new_df = []
             df = df.drop_nulls()
