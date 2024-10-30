@@ -58,12 +58,11 @@ class BalanceSheet(StockMe):
                 year = self.currYear - i
                 curr_assets = df.filter((pl.col(self.idx_column) == "Current Assets") & (pl.col("Year") == f"{year}"))
                 inventory = df.filter((pl.col(self.idx_column) == "Inventory") & (pl.col("Year") == f"{year}"))
-                try:
+                if curr_assets.is_empty() and inventory.is_empty():
+                    continue
+                else:
                     # quick assets = current assets - inventory
                     quick_assets = curr_assets["Dollars"][0] - inventory["Dollars"][0]
-                except:
-                    self.error_log.error("Inventory does not exist", exc_info=True)
-                    continue
                 new_row = {
                         self.idx_column: "Quick Assets",
                         "Year": f"{year}",
@@ -71,9 +70,11 @@ class BalanceSheet(StockMe):
                 }
                 new_df.append(new_row)
             new_df = pl.DataFrame(new_df)
-            df = df.vstack(new_df)
-            df = df.sort("Year", descending=True)
-            df = df.filter(pl.col(self.idx_column).is_in(["Current Liabilities", "Quick Assets"]))
+            df = (
+                pl.concat([df, new_df])
+                .sort("Year", descending=True)
+                .filter(pl.col(self.idx_column).is_in(["Current Liabilities", "Quick Assets"]))
+            )
             fig = px.bar(df, x="Year", y="Dollars", color=df["Criteria"], template="plotly_dark",
                 title="Quick ratio", width=800)
             return fig
