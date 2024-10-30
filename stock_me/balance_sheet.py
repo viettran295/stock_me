@@ -54,8 +54,8 @@ class BalanceSheet(StockMe):
                         variable_name="Year", value_name="Dollars")
             new_df = []
             df = df.drop_nulls()
-            for i in range(self.analyze_years-1):
-                year = dt.now().year - i
+            for i in range(self.analyze_years):
+                year = self.currYear - i
                 curr_assets = df.filter((pl.col(self.idx_column) == "Current Assets") & (pl.col("Year") == f"{year}"))
                 inventory = df.filter((pl.col(self.idx_column) == "Inventory") & (pl.col("Year") == f"{year}"))
                 try:
@@ -72,7 +72,7 @@ class BalanceSheet(StockMe):
                 new_df.append(new_row)
             new_df = pl.DataFrame(new_df)
             df = df.vstack(new_df)
-            df = df.sort("Year")
+            df = df.sort("Year", descending=True)
             df = df.filter(pl.col(self.idx_column).is_in(["Current Liabilities", "Quick Assets"]))
             fig = px.bar(df, x="Year", y="Dollars", color=df["Criteria"], template="plotly_dark",
                 title="Quick ratio", width=800)
