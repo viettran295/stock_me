@@ -8,10 +8,7 @@ from .balance_sheet import BalanceSheet
 class IncomeStatement(StockMe):
     def __init__(self) -> None:
         super().__init__()
-        self.income_criteria = ['Gross Profit', 'Cost Of Revenue', 'Total Revenue', 'Total Expenses', 
-                       'Interest Expense', 'Operating Revenue', 'Pretax Income', 'EBITDA', 'EBIT', 
-                       'Tax Provision', 'Diluted EPS', 'Basic EPS', 'Operating Income',
-                       'Net Income']
+        self.income_criteria = ['Gross Profit', 'Total Revenue', 'EBITDA', 'EBIT', 'Net Income']
         self.profitability_ratios = ["Total Revenue", "Operating Income", "Gross Profit", "Net Income"]
     
     @staticmethod
