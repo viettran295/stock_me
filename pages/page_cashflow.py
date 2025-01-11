@@ -16,6 +16,6 @@ layout = html.Div([
         Input("search_stock", "value")
 )
 def show_graph(search_stock):
-    dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_cashflow.csv"
-    cashflow = pd.read_csv(dataPath, index_col=0)
+    dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_cashflow.pkl"
+    cashflow = pd.read_pickle(dataPath)
     return cf.show_cashflow(cashflow)

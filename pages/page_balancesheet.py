@@ -32,8 +32,8 @@ layout = html.Div([
         State("alert_no_inventory", "is_open")
 )
 def show_graph(search_stock, is_open):
-        dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_balancesheet.csv"
-        balancesheet = pd.read_csv(dataPath, index_col=0)
+        dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_balancesheet.pkl"
+        balancesheet = pd.read_pickle(dataPath)
         if "Inventory" in balancesheet.index:
                 is_open = False
         else:

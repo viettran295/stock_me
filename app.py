@@ -109,9 +109,9 @@ def fetch_stock(search_stock):
     if not os.path.exists(dash_utils.DATA_PATH):
         os.mkdir(dash_utils.DATA_PATH)
     for sheet in sheets:
-        dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_{sheet}.csv"
+        dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_{sheet}.pkl"
         df = getattr(ticker, sheet)
-        df.to_csv(dataPath)
+        df.to_pickle(dataPath)
 
 @callback(
     Output("market_index", "children"),

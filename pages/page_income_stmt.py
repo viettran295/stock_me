@@ -21,12 +21,12 @@ layout = html.Div([
         Input("search_stock", "value")
 )
 def show_graph(search_stock):
-        dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_incomestmt.csv"
-        income = pd.read_csv(dataPath, index_col=0)
-        bs_dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_balancesheet.csv"
-        is_dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_incomestmt.csv"
-        balancesheet = pd.read_csv(bs_dataPath, index_col=0)
-        incomestmt = pd.read_csv(is_dataPath, index_col=0)
+        dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_incomestmt.pkl"
+        income = pd.read_pickle(dataPath)
+        bs_dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_balancesheet.pkl"
+        is_dataPath = f"{dash_utils.DATA_PATH}/{search_stock}_incomestmt.pkl"
+        balancesheet = pd.read_pickle(bs_dataPath)
+        incomestmt = pd.read_pickle(is_dataPath)
         return  [
                 fs.show_growing(income),
                 fs.show_profitability_ratios(income),
